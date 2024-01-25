@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#this script display the content of current directory in list format
+
+for file in *; do
+	if [[ "$file" == *-* ]]; then
+		echo "${file#*-}"
+	fi
+done
