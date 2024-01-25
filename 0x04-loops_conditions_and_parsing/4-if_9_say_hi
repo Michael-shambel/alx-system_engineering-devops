@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#this script going to print best school 10 times except the 9 th element
+
+count=0
+while [ $count -lt 10 ]; do
+	if [ $count -eq 8 ]; then
+		echo "Best School"
+		echo "Hi"
+	else
+		echo "Best School"
+	fi
+	((count++))
+done
