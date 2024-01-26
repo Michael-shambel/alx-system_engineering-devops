@@ -2,7 +2,7 @@
 # Bash script that: receiving a SIGTERM signal  receiving a SIGINT signal
 
 pid_file="/var/run/myscript.pid"
-trap 'echo "I hate the kill command"' SIGTERM
+trap 'echo "I hate the kill command"; rm -f "$pid_file"; exit' SIGTERM
 trap 'echo "Y U no love me?!"' SIGINT
 trap 'rm -f "$pid_file"; exit' SIGQUIT
 
