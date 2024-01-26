@@ -4,7 +4,7 @@
 pid_file="/var/run/myscript.pid"
 trap 'echo "I hate the kill command"' SIGTERM
 trap 'echo "Y U no love me?!"' SIGINT
-trap 'rm -f "$pid_file"' SIGQUIT
+trap 'rm -f "$pid_file"; exit' SIGQUIT
 
 echo $$ > "$pid_file"
 while true; do
