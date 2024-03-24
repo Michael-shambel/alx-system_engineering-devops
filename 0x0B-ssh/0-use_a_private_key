@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 #this is the scrypt to connect the server
 ssh -i ~/.ssh/school ubuntu@54.209.215.136
 
