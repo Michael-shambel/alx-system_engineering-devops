@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-#using Puppet to make changes to our configuration file.
+# 100-puppet_ssh_config.pp
 
-file { 'etc/ssh/ssh_config':
-   ensure => present,
+file { '/etc/ssh/ssh_config':
+  ensure => present,
 }
 
 file_line { 'Turn off passwd auth':
@@ -16,3 +16,4 @@ file_line { 'Declare identity file':
   line    => 'IdentityFile ~/.ssh/school',
   match   => '^#?IdentityFile',
 }
+
