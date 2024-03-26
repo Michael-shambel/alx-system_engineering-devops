@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#Install nginx web server
+#Nginx should be listening on port 80
+# Bash script that configures a new Ubuntu machine 
+#to respect above requirements
+sudo apt-get update -y
+sudo apt-get install nginx -y
+sudo service nginx start
+echo "Hello World!" > /var/www/html/index.html
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+kill -s HUP $(pgrep -x "nginx")
