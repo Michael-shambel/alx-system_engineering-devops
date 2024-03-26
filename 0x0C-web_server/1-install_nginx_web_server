@@ -6,7 +6,10 @@
 sudo apt-get update -y
 sudo apt-get install nginx -y
 sudo service nginx start
+sudi ufw allow 'ngine HTTP'
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -r 755 /var/www
 echo "Hello World!" > /var/www/html/index.html
-sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+sudo service nginx restart
 kill -s HUP "$(pgrep -x "nginx")"
 
