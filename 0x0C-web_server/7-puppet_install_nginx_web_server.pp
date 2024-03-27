@@ -1,3 +1,4 @@
+#script used to install nginx using puppet
 exec { 'update system':
 	command => '/usr/bin/apt-get update',
 }
