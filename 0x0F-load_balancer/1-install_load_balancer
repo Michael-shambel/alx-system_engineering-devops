@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Install HAProxy
+apt-get update
+apt-get install -y --no-install-recommends software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-2.0
+apt-get update
+apt-get install -y haproxy=2.0.*
+
+# Configure HAProxy
+cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend http_front
+    bind *:80
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server 48058-web-01 100.25.34.19:80 check
+    server 48058-web-02 100.27.2.0:80 check
+EOF
+
+# Restart and enable HAProxy service
+systemctl restart haproxy
+systemctl enable haproxy
+
