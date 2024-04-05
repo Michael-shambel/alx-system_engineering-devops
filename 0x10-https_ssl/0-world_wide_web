@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+
 # Function to get DNS information for a subdomain
 print_domain_subdomain () {
     local subdomain="$1"
     local domain="$2"
     local result
-    result=$(dig "$subdomain" | grep -A1 'ANSWER SECTION:' | sed -r "s/$subdomain\./$domain./g" | awk 'NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }')
+    result=$(dig "$subdomain" | grep -A1 'ANSWER SECTION:' | awk -v sub="$subdomain" -v dom="$domain" 'NR==2 { sub(sub "\\.", dom "."); print "The subdomain " $1 " is a " $4 " record and points to " $5 }')
     echo "$result"
 }
 
