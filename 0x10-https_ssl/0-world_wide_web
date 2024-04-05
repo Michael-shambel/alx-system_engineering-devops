@@ -1,36 +1,25 @@
 #!/usr/bin/env bash
 # Function to get DNS information for a subdomain
-get_dns_info() {
-    subdomain=$1
-    domain=$2
-
-    # Perform DNS lookup for the subdomain
-    result=$(dig $subdomain.$domain | awk '/ANSWER SECTION/{getline; print}')
-
-    # Extract record type and destination IP from the result
-    record_type=$(echo "$result" | awk '{print $3}')
-    destination=$(echo "$result" | awk '{print $5}')
-
-    # Print the information
-    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+print_domain_subdomain () {
+    local subdomain="$1"
+    local domain="$2"
+    local result
+    result=$(dig "$subdomain" | grep -A1 'ANSWER SECTION:' | sed -r "s/$subdomain\./$domain./g" | awk 'NR==2 { sub("\\.$", "", $5); print "The subdomain " $1 " is a " $4 " record and points to " $5 }')
+    echo "$result"
 }
 
-# Main script
-if [ $# -eq 0 ]; then
+# Check if the correct number of arguments is provided
+if [ "$#" -ne 1 ] && [ "$#" -ne 2 ]; then
     echo "Usage: $0 <domain> [subdomain]"
     exit 1
 fi
 
-domain=$1
-
-# If subdomain is not provided, set default subdomains
-if [ $# -eq 1 ]; then
-    subdomains=("www" "lb-01" "web-01" "web-02")
+# Check if a subdomain is provided
+if [ "$#" -eq 2 ]; then
+    print_domain_subdomain "$2.$1" "$2"
 else
-    subdomains=("$2")
+    print_domain_subdomain "www.$1" "$1"
+    print_domain_subdomain "lb-01.$1" "$1"
+    print_domain_subdomain "web-01.$1" "$1"
+    print_domain_subdomain "web-02.$1" "$1"
 fi
-
-# Loop through subdomains and get DNS information
-for subdomain in "${subdomains[@]}"; do
-    get_dns_info "$subdomain" "$domain"
-done
