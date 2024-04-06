@@ -2,10 +2,5 @@
 # Install Nginx if not already installed
 apt-get update
 apt-get install -y nginx
-
-# Remove default Nginx configuration
 rm /etc/nginx/sites-enabled/default
-
-# Restart Nginx service
 service nginx restart
-
