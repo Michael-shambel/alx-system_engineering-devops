@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
-#find out what’s keeping your Ubuntu container’s Nginx installation
-#from listening on port 80.
+# Find out what’s keeping your Ubuntu container’s Nginx installation
+# from listening on port 80.
+
+# Remove the default configuration symlink
 rm /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-avialable/default /etc/sites-enabled/default
+
+# Create a symlink to the default configuration file
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restart Nginx service
 service nginx restart
+
