@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Install Nginx if not already installed
-apt-get update
-apt-get install -y nginx
 rm /etc/nginx/sites-enabled/default
 service nginx restart
+
