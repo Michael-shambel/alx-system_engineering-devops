@@ -4,7 +4,7 @@ domain_subdomain () {
     local subdomain="$1"
     local domain="$2"
     local result
-    result=$(dig "$subdomain" | grep -A1 'ANSWER SECTION:' | sed -r "s/$subdomain\./$domain./g" | awk 'NR==2 { sub("\\.$", "", $5); print "The subdomain " $1 " is a " $4 " record and points to " $5 }')
+    result=$(dig "$subdomain" | grep -A1 'ANSWER SECTION:' | sed -r "s/$subdomain/$domain/g" | awk 'NR==2 { sub("\\.$", "", $5); print "The subdomain " $1 " is a " $4 " record and points to " $5 }')
     echo "$result"
 }
 
@@ -23,3 +23,4 @@ else
     domain_subdomain "web-01.$1" "$1"
     domain_subdomain "web-02.$1" "$1"
 fi
+
