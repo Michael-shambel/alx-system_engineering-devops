@@ -56,3 +56,4 @@ EOF
 # Restart and enable HAProxy service
 sudo systemctl restart haproxy
 sudo systemctl enable haproxy
+echo "HAProxy installed, configured, and managed via init script. Traffic is being sent to web-01 and web-02."
