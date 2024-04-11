@@ -18,15 +18,6 @@ global
         group haproxy
         daemon
 
-        # Default SSL material locations
-        ca-base /etc/ssl/certs
-        crt-base /etc/ssl/private
-
-        # See: https://ssl-config.mozilla.org/#server=haproxy&server-version=2.0.3&config=intermediate
-        ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
-        ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
-        ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
-
 defaults
         log     global
         mode    http
@@ -43,17 +34,18 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend miketech.tech
-    bind 0:80
-    default_backend web_servers
+frontend http_front
+        bind *:80
+        mode http
+        stats uri /haproxy?stats
+        default_backend web_servers
 
-backend web_Servers
-    balance roundrobin
-    server 48058-web-01 100.25.34.19:80 check
-    server 48058-web-02 100.27.2.0:80 check
+backend web_servers
+	balance roundrobin
+	server 48058-web-01 100.25.34.19:80 check
+	server 48058-web-02 100.27.2.0:80 check
 EOF
 
 # Restart and enable HAProxy service
 sudo systemctl restart haproxy
 sudo systemctl enable haproxy
-echo "HAProxy installed, configured, and managed via init script. Traffic is being sent to web-01 and web-02."
