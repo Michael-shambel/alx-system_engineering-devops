@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 # Install HAProxy
-sudo pt-get update
-sudo apt-get install -y --no-install-recommends software-properties-common
-sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
-sudo apt-get update
-sudo apt-get install -y haproxy=2.0.*
+sudo apt-get -y update
+sudo apt-get install -y haproxy
 
 # Configure HAProxy
 cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
@@ -45,6 +42,10 @@ backend web_servers
 	server 48058-web-01 100.25.34.19:80 check
 	server 48058-web-02 100.27.2.0:80 check
 EOF
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
 
 # Restart and enable HAProxy service
 sudo systemctl restart haproxy
