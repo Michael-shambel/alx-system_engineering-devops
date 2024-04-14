@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 # Install HAProxy
-sudo pt-get update
-sudo apt-get install -y --no-install-recommends software-properties-common
-sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
-sudo apt-get update
-sudo apt-get install -y haproxy=2.0.*
+sudo apt-get -y update
+sudo apt-get install -y haproxy
 
 # Configure HAProxy
 cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
@@ -17,15 +14,6 @@ global
         user haproxy
         group haproxy
         daemon
-
-        # Default SSL material locations
-        ca-base /etc/ssl/certs
-        crt-base /etc/ssl/private
-
-        # See: https://ssl-config.mozilla.org/#server=haproxy&server-version=2.0.3&config=intermediate
-        ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
-        ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
-        ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
 
 defaults
         log     global
@@ -43,15 +31,21 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend miketech.tech
-    bind 0:80
-    default_backend web_servers
+frontend http_front
+        bind *:80
+        mode http
+        stats uri /haproxy?stats
+        default_backend web_servers
 
-backend web_Servers
-    balance roundrobin
-    server 48058-web-01 100.25.34.19:80 check
-    server 48058-web-02 100.27.2.0:80 check
+backend web_servers
+	balance roundrobin
+	server 48058-web-01 100.25.34.19:80 check
+	server 48058-web-02 100.27.2.0:80 check
 EOF
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
 
 # Restart and enable HAProxy service
 sudo systemctl restart haproxy
