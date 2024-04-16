@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 # Check if the script is run with exactly one argument
 if [ "$#" -eq 1 ]; then
 	uname="$1"
