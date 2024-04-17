@@ -1,0 +1,4 @@
+[mysqld]
+# Comment out the bind-address parameter
+#bind-address            = 127.0.0.1
+
