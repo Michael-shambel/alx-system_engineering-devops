@@ -2,5 +2,6 @@
 # Modify Nginx configuration to run as nginx user
 sed -i "s/#user www-data/user ngnix/" /etc/nginx/nginx.conf
 sed -i -E "s/(listen.*)80 /\18080 /g" /etc/nginx/sites-available/default
+pkill apache2
 service nginx restart
 
