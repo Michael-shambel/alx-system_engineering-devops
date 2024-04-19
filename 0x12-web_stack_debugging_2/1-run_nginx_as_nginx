@@ -4,7 +4,7 @@ sudo apt-get update
 sudo apt-get install -y nginx
 
 # Stop Nginx if it's already running
-sudo service nginx stop
+sudo service nginx stop >/dev/null 2>&1 || sudo systemctl stop nginx.service >/dev/null 2>&1
 
 # Update Nginx configuration to run as nginx user
 sudo sed -i 's/^user .*/user nginx;/g' /etc/nginx/nginx.conf
@@ -13,5 +13,5 @@ sudo sed -i 's/^user .*/user nginx;/g' /etc/nginx/nginx.conf
 sudo sed -i 's/^listen  .*:80;/listen  *:8080;/g' /etc/nginx/sites-available/default
 
 # Start Nginx
-sudo service nginx start
+sudo service nginx start >/dev/null 2>&1 || sudo systemctl start nginx.service >/dev/null 2>&1
 
