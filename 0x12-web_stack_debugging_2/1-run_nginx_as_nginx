@@ -10,9 +10,3 @@ chmod 644 /etc/nginx/nginx.conf
 # Restart Nginx to apply changes
 service nginx restart
 
-# Verify Nginx process is running as nginx user
-ps auxff | grep ngin[x]
-
-# Check if Nginx is listening on port 8080
-nc -z 0 8080 ; echo $?
-
