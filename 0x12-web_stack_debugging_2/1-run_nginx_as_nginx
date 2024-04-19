@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# Install Nginx
-sudo apt-get update
-sudo apt-get install -y nginx
-
 # Stop Nginx if it's already running
 sudo service nginx stop >/dev/null 2>&1 || sudo systemctl stop nginx.service >/dev/null 2>&1
 
