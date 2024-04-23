@@ -27,7 +27,7 @@ def display_progress(employee_id):
     completed_task = [task for task in todo_list if task['completed']]
     num_completed_task = len(completed_task)
     employee_name = todo_info['name']
-    print("Employee {} is done with tasks({}/{})".format(
+    print("Employee {} is done with tasks({}/{}):".format(
           employee_name, num_completed_task, total_task))
     for task in completed_task:
         print("\t{}".format(task['title']))
