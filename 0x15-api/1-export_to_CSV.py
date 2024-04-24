@@ -33,15 +33,14 @@ def display_progress(employee_id):
 
 
 def export_to_csv(employee_id, todo_info, completed_task):
-    employee_name = todo_info['username']
+    employee_name = todo_info['name']
     filename = "{}.csv".format(employee_id)
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
-                        "TASK_TITLE"])
         for task in completed_task:
-            writer.writerow([employee_id, employee_name, task['completed'],
-                            task['title']])
+            writer.writerow(["{}".format(employee_id), "{}".format(
+                            employee_name), "{}".format(task['completed']),
+                            "{}".format(task['title'])])
 
 
 if __name__ == "__main__":
