@@ -4,9 +4,9 @@ Python script that, using this REST API, for a given employee ID,
 returns information about his/her TODO list progress and exports
  it in CSV format
 """
+import csv
 import requests
 import sys
-import csv
 
 
 def fetch_user(employee_id):
