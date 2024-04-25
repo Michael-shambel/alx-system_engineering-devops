@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Function to get DNS information for a subdomain
-get_dns_record() {
+get_record() {
     local domain="$1"
     local subdomain="$2"
     local full_domain="${subdomain}.${domain}"
@@ -10,23 +10,23 @@ get_dns_record() {
     local record_type
     record_type=$(dig "$full_domain" | awk '/ANSWER SECTION:/ {getline; print $4}')
     
-    if [ -z "$output" ]; then
-        echo "No A record found for $full_domain"
-    else
-        echo "The subdomain $subdomain is a $record_type record and points to $output"
-    fi
+    #if [ -z "$output" ]; then
+        #echo "No A record found for $full_domain"
+    #else
+    echo "The subdomain $subdomain is a $record_type record and points to $output"
+    #fi
 }
 
 # Check if 1 or 2 arguments are passed
 if [ $# -eq 1 ]; then
     domain="$1"
-    get_dns_record "$domain" "www"
-    get_dns_record "$domain" "lb-01"
-    get_dns_record "$domain" "web-01"
-    get_dns_record "$domain" "web-02"
+    get_record "$domain" "www"
+    get_record "$domain" "lb-01"
+    get_record "$domain" "web-01"
+    get_record "$domain" "web-02"
 elif [ $# -eq 2 ]; then
     domain="$1"
     subdomain="$2"
-    get_dns_record "$domain" "$subdomain"
+    get_record "$domain" "$subdomain"
 fi
 
