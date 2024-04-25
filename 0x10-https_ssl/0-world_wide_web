@@ -6,8 +6,10 @@ get_dns_record() {
     local subdomain="$2"
     local full_domain="${subdomain}.${domain}"
     
-    local output=$(dig +short "$full_domain")
-    local record_type=$(dig "$full_domain" | awk '/ANSWER SECTION:/ {getline; print $4}')
+    local output
+    output=$(dig +short "$full_domain")
+    local record_type
+    record_type=$(dig "$full_domain" | awk '/ANSWER SECTION:/ {getline; print $4}')
     
     if [ -z "$output" ]; then
         echo "No A record found for $full_domain"
