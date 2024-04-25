@@ -9,12 +9,7 @@ get_record() {
     output=$(dig +short "$full_domain")
     local record_type
     record_type=$(dig "$full_domain" | awk '/ANSWER SECTION:/ {getline; print $4}')
-    
-    #if [ -z "$output" ]; then
-        #echo "No A record found for $full_domain"
-    #else
     echo "The subdomain $subdomain is a $record_type record and points to $output"
-    #fi
 }
 
 # Check if 1 or 2 arguments are passed
