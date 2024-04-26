@@ -27,23 +27,17 @@ def display_progress(employee_id):
     todo_list = fetch_todo(employee_id)
     total_task = len(todo_list)
     completed_task = [task for task in todo_list if task['completed']]
-    num_completed_task = len(completed_task)
-    employee_name = todo_info['name']
-    return todo_info, completed_task
+    employee_name = todo_info['username']
+    csv_file_name = "{}.csv".format(employee_id)
+    with open(csv_file_name, 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
-
-def export_to_csv(employee_id, todo_info, completed_task):
-    employee_name = todo_info['name']
-    filename = "{}.csv".format(employee_id)
-    with open(filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        for task in completed_task:
-            writer.writerow(["{}".format(employee_id), "{}".format(
-                            employee_name), "{}".format(task['completed']),
-                            "{}".format(task['title'])])
+        for task in todo_list:
+            task_completed_status = "True" if task['completed'] else "False"
+            csv_writer.writerow([employee_id, employee_name,
+                                 task_completed_status, task['title']])
 
 
 if __name__ == "__main__":
     employee_id = int(sys.argv[1])
-    todo_info, completed_task = display_progress(employee_id)
-    export_to_csv(employee_id, todo_info, completed_task)
+    display_progress(employee_id)
