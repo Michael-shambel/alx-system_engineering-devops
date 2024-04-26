@@ -30,9 +30,9 @@ def display_progress(employee_id):
     print("Employee {} is done with tasks({}/{}):".format(
           employee_name, num_completed_task, total_task))
     for task in completed_task:
-        print("\t{}".format(task['title']))
+        print("\t {}".format(task['title']))
 
 
 if __name__ == "__main__":
-    employee_id = int(sys.argv[1])
-    display_progress(employee_id)
+  employee_id = int(sys.argv[1])
+  display_progress(employee_id)
