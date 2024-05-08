@@ -6,7 +6,7 @@
 import requests
 
 
-def recurse(subreddit, hot_list=[]):
+def recurse(subreddit, hot_list=[], after=None):
     """ecursive function that queries the Reddit API"""
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     resp = requests.get(url)
@@ -18,7 +18,7 @@ def recurse(subreddit, hot_list=[]):
             hot_list.append(title)
         after = data['data']['after']
         if after:
-            return recurse(subreddit, hot_list)
+            return recurse(subreddit, hot_list, after)
         return hot_list
     else:
         return None
