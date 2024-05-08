@@ -6,9 +6,14 @@
 import requests
 
 
-def recurse(subreddit, hot_list=[], after=None):
+def recurse(subreddit, hot_list=None, after=None):
     """ecursive function that queries the Reddit API"""
+    if hot_list is None:
+        hot_list = []
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    params = {'limit': 100}
+    if after:
+        params['after'] = after
     resp = requests.get(url)
     data = resp.json()
     if resp.status_code == 200:
