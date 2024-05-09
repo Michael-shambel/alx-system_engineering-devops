@@ -24,7 +24,8 @@ def count_words(subreddit, word_list, after=None, word_count=[]):
             title_lower = title.lower()
             for word in word_list:
                 if word.lower() in title_lower.split():
-                    word_count[word.lower()] = word_count.get(word.lower(), 0) + 1
+                    word_count[
+                        word.lower()] = word_count.get(word.lower(), 0) + 1
         after = data['data'].get('after')
         if after:
             return count_words(subreddit, word_list, after, word_count)
