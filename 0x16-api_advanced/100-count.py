@@ -6,13 +6,14 @@ delimited by spaces.
 """
 import requests
 
+
 def count_words(subreddit, word_list, after=None, word_count=None):
     if word_count is None:
         word_count = {}
 
     if not word_list:
         return
-    
+
     if after:
         url = f"https://www.reddit.com/r/{subreddit}/hot.json?after={after}"
     else:
@@ -26,12 +27,14 @@ def count_words(subreddit, word_list, after=None, word_count=None):
             title = post['data']['title'].lower()
             for word in word_list:
                 if word.lower() in title:
-                    word_count[word.lower()] = word_count.get(word.lower(), 0) + 1
+                    word_count[word.lower()] = word_count.get(word.lower(),
+                                                              0) + 1
 
         after = data['data'].get('after')
         if after:
             return count_words(subreddit, word_list, after, word_count)
         else:
-            sorted_word_count = sorted(word_count.items(), key=lambda x: (-x[1], x[0]))
+            sorted_word_count = sorted(word_count.items(), key=lambda x:
+                                       (-x[1], x[0]))
             for word, count in sorted_word_count:
                 print(f"{word}: {count}")
