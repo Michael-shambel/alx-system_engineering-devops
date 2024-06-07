@@ -11,13 +11,17 @@ sudo apt-get install nginx -y
 ufw allow 'Nginx HTTP'
 
 # Create index.html with "Hello World!"
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
+echo "Hello World!" > /var/www/html/index.html
 
 # Add redirection configuration to Nginx server block
-sed -i "37i\ \tlocation /redirect_me {\n\t\treturn 301 https://youtu.be/dQw4w9WgXcQ;\n\t}\n" /etc/nginx/sites-available/default
+sed -i "37i\\
+    location /redirect_me {\\
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; \\
+    }\\
+" /etc/nginx/sites-available/default
 
 # Write "Ceci n'est pas une page" to the custom 404 error page file
-echo "Ceci n'est pas une page" > /usr/share/nginx/html/404error.html
+echo "Ceci n'est pas une page" > /var/www/html/404error.html
 
 
 # Add custom error handling configuration to Nginx server block
