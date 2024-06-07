@@ -5,11 +5,10 @@
 #to respect above requirements
 sudo apt-get update -y
 sudo apt-get install nginx -y
-sudo service nginx start
-sudi ufw allow 'ngine HTTP'
+sudo ufw allow 'ngine HTTP'
+echo "Hello World!" | sudo tee /var/www/html/index.html
 sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -r 755 /var/www
-echo "Hello World!" > /var/www/html/index.html
+sudo chmod -R 755 /var/www
 sudo service nginx restart
-kill -s HUP "$(pgrep -x "nginx")"
+sudo nginx -s reload
 
